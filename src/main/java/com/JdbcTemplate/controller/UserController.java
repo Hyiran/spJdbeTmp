@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class UserController {
+
+    //创建线程安全的Map
+    static Map<Integer,User> users = Collections.synchronizedMap(new HashMap<Integer, User>());
 
     @Autowired
     private UserService userService;
@@ -21,6 +24,7 @@ public class UserController {
      * @param id
      * @return
      */
+    @CrossOrigin
     @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
     public ResponseEntity<JsonResult> getUserById(@PathVariable(value = "id") Integer id) {
         JsonResult jr = new JsonResult();
@@ -41,6 +45,7 @@ public class UserController {
      *
      * @return
      */
+    @CrossOrigin
     @RequestMapping(value = "users", method = RequestMethod.GET)
     public ResponseEntity<JsonResult> getUserList() {
         JsonResult r = new JsonResult();
